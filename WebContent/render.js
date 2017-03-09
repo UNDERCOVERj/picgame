@@ -41,7 +41,7 @@
 					$('.content h1').bind('click',this.bindBegin.bind(this))
 					$('.reset').bind('click',function(){
 						$('.content').html(str);
-						this.traceNum=0;
+						self.traceNum=0;
 						$('#trace').html(0);
 						$('#time').html(0);
 						clearInterval(self.timer)

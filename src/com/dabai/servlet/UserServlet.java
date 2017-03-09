@@ -59,11 +59,10 @@ public class UserServlet extends HttpServlet {
 		//获取用户最高分
 		tempGrade  = user.getEasyGrade()>tempGrade?tempGrade:user.getEasyGrade();	
 		//更新用户最高分数据
-		userDao.updateGrade(user.getUsername(), tempGrade, 
-					ValueUtils.getInstance().getModelMap().get(mode));
+		userDao.updateGrade(user.getUsername(),  
+					ValueUtils.getInstance().getModelMap().get(mode),tempGrade);
 		//返回json字符串
 		String returnJson = "{\"mode\":\""+mode+"\",\"highestGrade\":"+tempGrade+"}";
-		System.out.println(returnJson);
 		response.setContentType("text/json");
 		response.getWriter().print(returnJson);
 		response.getWriter().flush();

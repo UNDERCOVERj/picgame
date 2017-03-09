@@ -83,9 +83,97 @@
 	<script type="text/javascript" src="login.js"></script>
     </body>
     <script type="text/javascript" >
-    	$(function(){
-    		
-    	})
+    	$(function(){                           
+			$('#login').click(function(){
+				var username = 	$("#login_user").val();
+				var password = $("#login_pas").val();  
+				var data = JSON.stringify({'username':username,'password':password});
+		         $.ajax({
+		             type: "POST",
+		             url: "UserServlet",
+		             dataType: "json",
+		             data: {
+		             		"data":data,
+		            	 	"method":"login"
+		            	 },
+		             //发送的数据格式，用户名和密码
+		             //在后台验证
+		             success: function(data){
+		             			 /*
+								返回data：{
+									'username':xxx
+									'grade':55
+									"easy-grade":000
+									"diff-grade":000
+								}
+			                  */
+	             			 if(data['username']){
+								$('#username').empty();   //清空resText里面的所有内容					  
+								 $('#username').html('用户:'+data['username']);
+								 $('.layout').css({
+									display:'none'
+								 })
+								 console.log(data)
+								 $('#easy-grade').html(data.easyGrade)
+								 $('#diff-grade').html(data.diffGrade)
+							 }else{
+								alert('密码错误')
+							 }
+		                         
+		                    },
+		              error:function() {
+		              	alert('出错了')
+		              }
+		        	
+	    		})
+		        return false 
+	     	})
+    		$('#register').click(function(){
+    			if($("#register_pas").val()==$("#repas").val()){
+    				var username = 	$("#register_user").val();
+    				var password =  $("#register_pas").val()
+    				var data = JSON.stringify({'username':username, 
+          	 		  	'password':password});
+    				$.ajax({
+			             type: "POST",
+			             url: "UserServlet",
+			             data:  { 
+			            	 	 "data":data,
+		             			 "method":"register"
+			            	    },
+			             //发送的数据格式，用户名和密码
+			             dataType: "json",
+			             success: function(data){
+			            	 console.log(data);
+			                  /*
+								返回的data:{
+									username:'',
+									password:'',
+									grade:55
+								}
+			                  */
+			                  //data=JSON.parse(data)如果是json数据就用这个
+			                      
+			                  	$('#username').empty();   //清空resText里面的所有内容
+			                    $('#username').html(data.username);
+								$('.layout').css({
+									display:'none'
+								 })
+			                   	$('#easy-grade').html(data.easyGrade)
+								$('#diff-grade').html(data.diffGrade)
+							  
+			        	},
+			              error:function() {
+			              	alert('出错了')
+			              }
+    				})
+    			}else{
+    				alert('密码输入不一致')
+    			} 
+				return false 
+    			
+    		}) 
+		})
     	
     </script>
 </html>
